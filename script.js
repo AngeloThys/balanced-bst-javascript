@@ -28,9 +28,88 @@ class Tree {
 
     return root;
   }
+
+  insert(value) {
+    if (typeof value !== 'number') {
+      throw new Error('Not a number');
+    }
+
+    this.insertRecursion(value);
+  }
+
+  insertRecursion(value, node = this.root) {
+    if (value === node.value) {
+      throw new Error('Value already present');
+    }
+
+    if (value > node.value) {
+      if (node.right === null) {
+        node.right = new Node(value);
+      } else {
+        this.insertRecursion(value, node.right);
+      }
+    } else {
+      if (node.left === null) {
+        node.left = new Node(value);
+      } else {
+        this.insertRecursion(value, node.left);
+      }
+    }
+  }
+
+  delete(value) {
+    if (typeof value !== 'number') {
+      throw new Error('Not a number');
+    }
+
+    this.root = this.deleteRecursion(value);
+  }
+
+  deleteRecursion(value, node = this.root) {
+    // base recursion case
+    if (node === null) {
+      return null;
+    }
+
+    // recursive traversal of the tree
+    if (value > node.value) {
+      node.right = this.deleteRecursion(value, node.right);
+      return node;
+    }
+    if (value < node.value) {
+      node.left = this.deleteRecursion(value, node.left);
+      return node;
+    }
+
+    // Handle each case of node (leaf, 1child, 2children)
+    if (node.right === null) {
+      return node.left;
+    }
+    if (node.left === null) {
+      return node.right;
+    }
+
+    let replacementParent = node;
+    let replacement = node.right;
+
+    while (replacement.left !== null) {
+      replacementParent = replacement;
+      replacement = replacement.left;
+    }
+
+    if (replacementParent === node) {
+      replacementParent.right = replacement.right;
+    } else {
+      replacementParent.left = replacement.right;
+    }
+
+    node.value = replacement.value;
+
+    return node;
+  }
 }
 
-const prettyPrint = (node, prefix = "", isLeft = true) => {
+function prettyPrint(node, prefix = "", isLeft = true) {
   if (node === null) {
     return;
   }
