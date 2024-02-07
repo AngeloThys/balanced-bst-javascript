@@ -154,6 +154,24 @@ class Tree {
 
     return values;
   }
+
+  levelOrderRecursive(callback = (node) => node.value, queue = [this.root]) {
+    let node = queue.shift();
+    // base case
+    if (queue.length === 0 && node.left === null && node.right === null) {
+      return [callback(node)];
+    }
+
+    // recursive case
+    if (node.left !== null) {
+      queue.push(node.left);
+    }
+    if (node.right !== null) {
+      queue.push(node.right);
+    }
+
+    return [callback(node)].concat(this.levelOrderRecursive(callback, queue));
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
@@ -168,4 +186,10 @@ function prettyPrint(node, prefix = "", isLeft = true) {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
+
+const arr = [1, 2, 3, 4, 5];
+let tree = new Tree(arr);
+prettyPrint(tree.root);
+console.log(tree.levelOrderRecursive());
+console.log(tree.levelOrderRecursive((node) => node.value * 2));
 
