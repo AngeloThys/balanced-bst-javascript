@@ -107,6 +107,32 @@ class Tree {
 
     return node;
   }
+
+  find(value) {
+    if (typeof value !== 'number') {
+      throw new Error('not a number');
+    }
+
+    return this.findRecursive(value);
+  }
+
+  findRecursive(value, node = this.root) {
+    // base recursive case
+    if (node === null) {
+      return null;
+    }
+
+    // recursive traversal until value
+    if (value > node.value) {
+      return this.findRecursive(value, node.right);
+    }
+    if (value < node.value) {
+      return this.findRecursive(value, node.left);
+    }
+
+    // return node when value matches
+    return node;
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
