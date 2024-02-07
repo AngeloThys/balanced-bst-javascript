@@ -133,6 +133,27 @@ class Tree {
     // return node when value matches
     return node;
   }
+
+  levelOrder(callback = (node) => node.value) {
+    const queue = [this.root];
+    const values = [];
+    let node = null;
+
+    while (queue.length > 0) {
+      node = queue.shift();
+
+      values.push(callback(node));
+
+      if (node.left !== null) {
+        queue.push(node.left);
+      }
+      if (node.right !== null) {
+        queue.push(node.right);
+      }
+    }
+
+    return values;
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
