@@ -172,6 +172,51 @@ class Tree {
 
     return [callback(node)].concat(this.levelOrderRecursive(callback, queue));
   }
+
+  inOrder(callback = (node) => node.value, node = this.root) {
+    let arr = [];
+    // base case
+    if (node === null) {
+      return [];
+    }
+
+    // recursive case
+    arr = arr.concat(this.inOrder(callback, node.left));
+    arr.push(callback(node));
+    arr = arr.concat(this.inOrder(callback, node.right));
+
+    return arr;
+  }
+
+  preOrder(callback = (node) => node.value, node = this.root) {
+    let arr = [];
+    // base case
+    if (node === null) {
+      return [];
+    }
+
+    // recursive case
+    arr.push(callback(node));
+    arr = arr.concat(this.preOrder(callback, node.left));
+    arr = arr.concat(this.preOrder(callback, node.right));
+
+    return arr;
+  }
+
+  postOrder(callback = (node) => node.value, node = this.root) {
+    let arr = [];
+    // base case
+    if (node === null) {
+      return [];
+    }
+
+    // recursive case
+    arr = arr.concat(this.postOrder(callback, node.left));
+    arr = arr.concat(this.postOrder(callback, node.right));
+    arr.push(callback(node));
+
+    return arr;
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
@@ -190,6 +235,6 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 const arr = [1, 2, 3, 4, 5];
 let tree = new Tree(arr);
 prettyPrint(tree.root);
-console.log(tree.levelOrderRecursive());
-console.log(tree.levelOrderRecursive((node) => node.value * 2));
+console.log(tree.postOrder());
+console.log(tree.postOrder((node) => node.value * 2));
 
