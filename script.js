@@ -217,6 +217,34 @@ class Tree {
 
     return arr;
   }
+
+  height(node = this.root, count = 0) {
+    // base case
+    if (node === null) {
+      return --count;
+    }
+
+    // recursive case
+    let left = this.height(node.left, count++);
+    let right = this.height(node.right, count++);
+
+    // return highest value
+    return left >= right ? left : right;
+  }
+
+  height2(node = this.root, count = 0) {
+    let left = count;
+    let right = count;
+
+    if (node.left !== null) {
+      left = this.height(node.left, count++);
+    }
+    if (node.right !== null) {
+      right = this.height(node.right, count++);
+    }
+
+    return left >= right ? left : right;
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
@@ -231,10 +259,4 @@ function prettyPrint(node, prefix = "", isLeft = true) {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
-
-const arr = [1, 2, 3, 4, 5];
-let tree = new Tree(arr);
-prettyPrint(tree.root);
-console.log(tree.postOrder());
-console.log(tree.postOrder((node) => node.value * 2));
 
