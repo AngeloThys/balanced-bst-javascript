@@ -225,8 +225,8 @@ class Tree {
     }
 
     // recursive case
-    let left = this.height(node.left, count++);
-    let right = this.height(node.right, count++);
+    let left = this.height(node.left, count + 1);
+    let right = this.height(node.right, count + 1);
 
     // return highest value
     return left >= right ? left : right;
@@ -237,13 +237,28 @@ class Tree {
     let right = count;
 
     if (node.left !== null) {
-      left = this.height(node.left, count++);
+      left = this.height2(node.left, count + 1);
     }
     if (node.right !== null) {
-      right = this.height(node.right, count++);
+      right = this.height2(node.right, count + 1);
     }
 
     return left >= right ? left : right;
+  }
+
+  depth(target, node = this.root, count = 0) {
+    if (node === null) {
+      throw new Error('Node not in tree');
+    }
+
+    if (node.value > target.value) {
+      return this.depth(target, node.left, ++count);
+    }
+    if (node.value < target.value) {
+      return this.depth(target, node.right, ++count);
+    }
+
+    return count;
   }
 }
 
