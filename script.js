@@ -8,11 +8,15 @@ class Node {
 
 class Tree {
   constructor(array) {
-    this.root = this.buildTree(this.prepareArray(array), 0, this.prepareArray(array).length - 1);
+    this.root = this.buildTree(
+      this.prepareArray(array),
+      0,
+      this.prepareArray(array).length - 1,
+    );
   }
 
   prepareArray(array) {
-    return [... new Set(array.toSorted((a, b) => a - b))];
+    return [...new Set(array.toSorted((a, b) => a - b))];
   }
 
   buildTree(array, start, end) {
@@ -30,8 +34,8 @@ class Tree {
   }
 
   insert(value) {
-    if (typeof value !== 'number') {
-      throw new Error('Not a number');
+    if (typeof value !== "number") {
+      throw new Error("Not a number");
     }
 
     this.insertRecursion(value);
@@ -39,7 +43,7 @@ class Tree {
 
   insertRecursion(value, node = this.root) {
     if (value === node.value) {
-      throw new Error('Value already present');
+      throw new Error("Value already present");
     }
 
     if (value > node.value) {
@@ -58,8 +62,8 @@ class Tree {
   }
 
   delete(value) {
-    if (typeof value !== 'number') {
-      throw new Error('Not a number');
+    if (typeof value !== "number") {
+      throw new Error("Not a number");
     }
 
     this.root = this.deleteRecursion(value);
@@ -109,8 +113,8 @@ class Tree {
   }
 
   find(value) {
-    if (typeof value !== 'number') {
-      throw new Error('not a number');
+    if (typeof value !== "number") {
+      throw new Error("not a number");
     }
 
     return this.findRecursive(value);
@@ -233,6 +237,10 @@ class Tree {
   }
 
   height2(node = this.root, count = 0) {
+    if (node === null) {
+      return count;
+    }
+
     let left = count;
     let right = count;
 
@@ -248,7 +256,7 @@ class Tree {
 
   depth(target, node = this.root, count = 0) {
     if (node === null) {
-      throw new Error('Node not in tree');
+      throw new Error("Node not in tree");
     }
 
     if (node.value > target.value) {
@@ -259,6 +267,18 @@ class Tree {
     }
 
     return count;
+  }
+
+  isNodeBalanced = (node) => {
+    let leftHeight = this.height2(node.left);
+    let rightHeight = this.height2(node.right);
+    let difference = Math.abs(leftHeight - rightHeight);
+
+    return difference <= 1;
+  };
+
+  isBalanced() {
+    return !this.levelOrder(this.isNodeBalanced).includes(false);
   }
 }
 
@@ -273,5 +293,4 @@ function prettyPrint(node, prefix = "", isLeft = true) {
   if (node.left !== null) {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
-};
-
+}
