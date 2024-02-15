@@ -238,7 +238,7 @@ class Tree {
 
   height2(node = this.root, count = 0) {
     if (node === null) {
-      return count;
+      return -1;
     }
 
     let left = count;
