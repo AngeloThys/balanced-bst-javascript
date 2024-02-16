@@ -300,12 +300,37 @@ function prettyPrint(node, prefix = "", isLeft = true) {
   }
 }
 
-const arr = [1, 2, 3, 4, 5];
+function randomNumber() {
+  return Math.floor(Math.random() * 100);
+}
+
+function ranNumArrGenerator(amount) {
+  let values = [];
+
+  for (let i = 0; i < amount; ++i) {
+    values.push(randomNumber());
+  }
+
+  return values;
+}
+
+const arr = ranNumArrGenerator(10);
 let tree = new Tree(arr);
 prettyPrint(tree.root);
-tree.insert(6);
-tree.insert(0);
+console.log(tree.isBalanced());
+console.log(tree.levelOrder());
+console.log(tree.preOrder());
+console.log(tree.inOrder());
+console.log(tree.postOrder());
+tree.insert(101);
+tree.insert(103);
+tree.insert(106);
 prettyPrint(tree.root);
 console.log(tree.isBalanced());
 tree.rebalance();
 prettyPrint(tree.root);
+console.log(tree.isBalanced());
+console.log(tree.levelOrder());
+console.log(tree.preOrder());
+console.log(tree.inOrder());
+console.log(tree.postOrder());
