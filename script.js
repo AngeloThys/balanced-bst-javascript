@@ -280,6 +280,11 @@ class Tree {
   isBalanced() {
     return !this.levelOrder(this.isNodeBalanced).includes(false);
   }
+
+  rebalance() {
+    let values = this.inOrder();
+    this.root = this.buildTree(values, 0, values.length - 1);
+  }
 }
 
 function prettyPrint(node, prefix = "", isLeft = true) {
@@ -294,3 +299,13 @@ function prettyPrint(node, prefix = "", isLeft = true) {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 }
+
+const arr = [1, 2, 3, 4, 5];
+let tree = new Tree(arr);
+prettyPrint(tree.root);
+tree.insert(6);
+tree.insert(0);
+prettyPrint(tree.root);
+console.log(tree.isBalanced());
+tree.rebalance();
+prettyPrint(tree.root);
